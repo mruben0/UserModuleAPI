@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using UserModuleApi.Infrastracture;
+using UserModuleApi.Mappings;
 
 namespace UserModuleApi
 {
@@ -28,7 +29,7 @@ namespace UserModuleApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton(Configuration);
+            services.AddSingleton<UserProfile>();
             services.AddDbContext<UserModuleDBContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
         }
 
