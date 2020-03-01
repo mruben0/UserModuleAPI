@@ -1,6 +1,7 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UserModuleApi.Infrastracture;
 using UserModuleApi.Mappings;
 using UserModuleApi.Models;
@@ -23,21 +24,72 @@ namespace UserModuleApi.Controllers
         }
 
         [HttpGet]
-        public UserViewModel GetUsers()
+        public List<UserViewModel> GetUsers()
         {
-            var user = new User()
+            var users = _context.Users.ToList();
+            return _userProfile.GetMapper().Map<List<UserViewModel>>(users);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetById([FromRoute] int id)
+        {
+            var user = _context.Users.SingleOrDefault(e => e.Id == id);
+            if (user == null)
             {
-                Id = 1,
-                Name = "ss",
-                Adress = "Yerevan",
-                BirthDate = 1998,
-                Created = DateTime.Now,
-                Info = "Text",
-                IsActive = true,
-                UserName = "Vzgo@gmail.com"
-            };
-            var ee = _userProfile.GetMapper().Map<UserViewModel>(user);
-            return _userProfile.GetMapper().Map<UserViewModel>(user);
+                return NotFound($"User With Id {id} does not exist");
+            }
+            var userModel = _userProfile.GetMapper().Map<UserViewModel>(user);
+
+            return Ok(user);
+        }
+
+        [HttpPost]
+        public IActionResult AddUser([FromBody] UserViewModel userViewModel)
+        {
+            var actionDate = DateTime.Now;
+            var user = _userProfile.GetMapper().Map<User>(userViewModel);
+            user.Created = actionDate;
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return Ok(userViewModel);
+        }
+
+        [HttpPut]
+        public IActionResult UpdateUser([FromBody]UserViewModel userViewModel)
+        {
+            if (!userViewModel.Id.HasValue)
+            {
+                return BadRequest("Some required params are missing");
+            }
+            var user = _context.Users.SingleOrDefault(e => e.Id == userViewModel.Id);
+            if (user == null)
+            {
+                return NotFound($"User With Id {userViewModel.Id} does not exist");
+            }
+
+            user.Name = userViewModel.Name;
+            user.Adress = userViewModel.Adress;
+            user.BirthDate = userViewModel.BirthDate;
+            user.Info = userViewModel.Info;
+            user.IsActive = userViewModel.IsActive;
+            user.UserName = userViewModel.UserName;
+
+            _context.Update(user);
+            _context.SaveChanges();
+            return Ok(userViewModel);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult RemoveUser([FromRoute]int id)
+        {
+            var user = _context.Users.SingleOrDefault(e => e.Id == id);
+            if (user == null)
+            {
+                return NotFound($"User With Id {id} does not exist");
+            }
+            _context.Remove(user);
+            _context.SaveChanges();
+            return Ok();
         }
     }
 }

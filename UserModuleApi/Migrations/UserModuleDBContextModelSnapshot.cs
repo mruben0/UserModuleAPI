@@ -32,6 +32,9 @@ namespace UserModuleApi.Migrations
                     b.Property<int?>("BirthDate")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Info")
                         .HasColumnType("nvarchar(max)");
 
@@ -49,6 +52,30 @@ namespace UserModuleApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Adress = "Yerevan",
+                            BirthDate = 1998,
+                            Created = new DateTime(2020, 3, 1, 23, 52, 12, 130, DateTimeKind.Local).AddTicks(544),
+                            Info = "Doc",
+                            IsActive = true,
+                            Name = "Ruben",
+                            UserName = "Ruben@gmail.com"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Adress = "Alaverdi",
+                            BirthDate = 2001,
+                            Created = new DateTime(2020, 3, 1, 23, 52, 12, 131, DateTimeKind.Local).AddTicks(846),
+                            Info = "Custom",
+                            IsActive = true,
+                            Name = "Mukuch",
+                            UserName = "Mko@gmail.com"
+                        });
                 });
 #pragma warning restore 612, 618
         }

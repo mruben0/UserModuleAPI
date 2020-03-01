@@ -39,11 +39,13 @@ namespace UserModuleApi
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                scope.ServiceProvider.GetService<UserModuleDBContext>().Database.Migrate();
+            }
             app.UseRouting();
-
+                                
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {

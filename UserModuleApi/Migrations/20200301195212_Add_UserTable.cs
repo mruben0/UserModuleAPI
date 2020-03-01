@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UserModuleApi.Migrations
 {
-    public partial class Add_UserTablea : Migration
+    public partial class Add_UserTable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,12 +18,23 @@ namespace UserModuleApi.Migrations
                     Adress = table.Column<string>(nullable: true),
                     Info = table.Column<string>(nullable: true),
                     BirthDate = table.Column<int>(nullable: true),
-                    IsActive = table.Column<bool>(nullable: false)
+                    IsActive = table.Column<bool>(nullable: false),
+                    Created = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Adress", "BirthDate", "Created", "Info", "IsActive", "Name", "UserName" },
+                values: new object[] { 1, "Yerevan", 1998, new DateTime(2020, 3, 1, 23, 52, 12, 130, DateTimeKind.Local).AddTicks(544), "Doc", true, "Ruben", "Ruben@gmail.com" });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "Id", "Adress", "BirthDate", "Created", "Info", "IsActive", "Name", "UserName" },
+                values: new object[] { 2, "Alaverdi", 2001, new DateTime(2020, 3, 1, 23, 52, 12, 131, DateTimeKind.Local).AddTicks(846), "Custom", true, "Mukuch", "Mko@gmail.com" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
