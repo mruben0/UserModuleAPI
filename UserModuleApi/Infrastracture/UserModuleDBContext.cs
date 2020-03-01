@@ -19,7 +19,7 @@ namespace UserModuleApi.Infrastracture
             {
                 Id = 1,
                 Name = "Ruben",
-                Adress = "Yerevan",
+                Address = "Yerevan",
                 BirthDate = 1998,
                 Created = DateTime.Now,
                 Info = "Doc",
@@ -30,7 +30,7 @@ namespace UserModuleApi.Infrastracture
             {
                 Id = 2,
                 Name = "Mukuch",
-                Adress = "Alaverdi",
+                Address = "Alaverdi",
                 BirthDate = 2001,
                 Created = DateTime.Now,
                 Info = "Custom",

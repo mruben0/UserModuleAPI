@@ -15,7 +15,7 @@ namespace UserModuleApi.Models
         [Required]
         public string Name { get; set; }
 
-        public string Adress { get; set; }
+        public string Address { get; set; }
         public string Info { get; set; }
         public int? BirthDate { get; set; }
         public bool IsActive { get; set; }

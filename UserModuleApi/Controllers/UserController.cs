@@ -68,7 +68,7 @@ namespace UserModuleApi.Controllers
             }
 
             user.Name = userViewModel.Name;
-            user.Adress = userViewModel.Adress;
+            user.Address = userViewModel.Adress;
             user.BirthDate = userViewModel.BirthDate;
             user.Info = userViewModel.Info;
             user.IsActive = userViewModel.IsActive;
