@@ -22,6 +22,22 @@ namespace UserModuleApi.Controllers
             _userProfile = userProfile ?? throw new ArgumentNullException(nameof(userProfile));
         }
 
-       
+        [HttpGet]
+        public UserViewModel GetUsers()
+        {
+            var user = new User()
+            {
+                Id = 1,
+                Name = "ss",
+                Adress = "Yerevan",
+                BirthDate = 1998,
+                Created = DateTime.Now,
+                Info = "Text",
+                IsActive = true,
+                UserName = "Vzgo@gmail.com"
+            };
+            var ee = _userProfile.GetMapper().Map<UserViewModel>(user);
+            return _userProfile.GetMapper().Map<UserViewModel>(user);
+        }
     }
 }
