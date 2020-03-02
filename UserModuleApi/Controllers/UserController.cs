@@ -54,22 +54,18 @@ namespace UserModuleApi.Controllers
             return Ok(userViewModel);
         }
 
-        [HttpPut]
-        public IActionResult UpdateUser([FromBody]UserViewModel userViewModel)
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser([FromRoute]int id, [FromBody]UserViewModel userViewModel)
         {
-            if (!userViewModel.Id.HasValue)
-            {
-                return BadRequest("Some required params are missing");
-            }
-            var user = _context.Users.SingleOrDefault(e => e.Id == userViewModel.Id);
+            var user = _context.Users.SingleOrDefault(e => e.Id == id);
             if (user == null)
             {
-                return NotFound($"User With Id {userViewModel.Id} does not exist");
+                return NotFound($"User With Id {id} does not exist");
             }
 
             user.Name = userViewModel.Name;
-            user.Address = userViewModel.Adress;
-            user.BirthDate = userViewModel.BirthDate;
+            user.Address = userViewModel.Address;
+            user.BirthDate = Convert.ToInt32(userViewModel.BirthDate);
             user.Info = userViewModel.Info;
             user.IsActive = userViewModel.IsActive;
             user.UserName = userViewModel.UserName;
